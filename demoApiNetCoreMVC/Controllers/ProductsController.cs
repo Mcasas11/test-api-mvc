@@ -11,7 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace demoApiNetCoreMVC.Controllers
 {
-    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Route("api/Products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -36,7 +37,20 @@ namespace demoApiNetCoreMVC.Controllers
             return product;
         }
 
-        // POST api/<ProductsController>
+        /// <summary>
+        /// Create new Product
+        /// </summary>
+        /// <remarks>
+        /// {
+        ///  "productName": 1,
+        ///  "productDescription": desc,
+        ///  "productPrice": price
+        ///  }
+        /// </remarks>
+        /// <param name="product"></param>
+        /// <returns>A newly product was created</returns>
+        /// <response code ="201">Newly product created</response>
+        /// <response code ="400">Failed</response>
         [HttpPost]
         public ActionResult Post(Product product)
         {
@@ -68,9 +82,13 @@ namespace demoApiNetCoreMVC.Controllers
             }
         }
 
-        // DELETE api/<ProductsController>/5
+        /// <summary>
+        /// Delete a specific item by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             var product = context.Product.FirstOrDefault(d => d.productCode == id);
             if (product != null)
